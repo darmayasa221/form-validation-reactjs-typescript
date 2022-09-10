@@ -21,35 +21,35 @@ const NavigationBar: React.FC = () => {
 };
 
 const Nav = styled.nav({
-  height: '100%',
+  height: "100%",
   display: "flex",
-  alignItems: 'center',
+  alignItems: "center",
   ul: {
     display: "flex",
   },
 });
 const Wrap = styled.div({
-  height: '50%',
+  height: "50%",
   borderLeft: "2px solid white",
   display: "flex",
-  alignItems: 'center',
+  alignItems: "center",
   fontWeight: "bolder",
   a: {
     display: "block",
     width: "90px",
   },
   ".register": {
-    textAlign: 'center',
+    textAlign: "center",
     color: "black",
     ":hover": {
       color: "white",
     },
   },
   ".login": {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '80%',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "80%",
     color: "white",
     backgroundColor: "black",
     borderRadius: "10px",

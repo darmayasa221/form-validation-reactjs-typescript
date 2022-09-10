@@ -15,13 +15,13 @@ const NavigationList: React.FC = () => {
 };
 
 const Li = styled.li({
-  paddingRight: '20px',
-  a : {
-    color: 'black',
-    ':hover,:active': {
+  paddingRight: "20px",
+  a: {
+    color: "black",
+    ":hover,:active": {
       color: "white",
-    }
-  }
-})
+    },
+  },
+});
 
 export default NavigationList;
