@@ -22,3 +22,10 @@ a {
 li {
   list-style: none;
 }
+#root {
+  height: 100vh;
+}
+main { 
+  height: 100%;
+  padding-top: 80px;
+}
