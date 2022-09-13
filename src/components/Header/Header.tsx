@@ -13,7 +13,7 @@ const Header: React.FC = () => {
 
 const MainHeader = styled.header({
   display: "flex",
-  position: 'fixed',
+  position: "fixed",
   width: "100%",
   backgroundColor: "#0087ff",
   padding: "0 30px",
