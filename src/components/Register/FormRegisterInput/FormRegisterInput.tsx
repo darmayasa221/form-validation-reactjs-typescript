@@ -11,6 +11,11 @@ type PropsFormRegisterInput = Partial<HTMLInputElement> & {
       | React.ChangeEvent<HTMLInputElement>
       | React.FocusEvent<HTMLInputElement, Element>
   ) => void;
+  onFocus?: (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.FocusEvent<HTMLInputElement, Element>
+  ) => void;
 };
 
 const FormRegisterInput: React.FC<PropsFormRegisterInput> = ({
@@ -21,6 +26,7 @@ const FormRegisterInput: React.FC<PropsFormRegisterInput> = ({
   isValid,
   onChange,
   onBlur,
+  onFocus,
 }) => {
   return (
     <WrapInput>
@@ -31,6 +37,7 @@ const FormRegisterInput: React.FC<PropsFormRegisterInput> = ({
         onChange={onChange}
         isValid={isValid}
         onBlur={onBlur}
+        onFocus={onFocus}
       />
       {!isValid && (
         <ErrorMessage isValid={isValid}>

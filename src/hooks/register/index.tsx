@@ -38,7 +38,7 @@ const RegisterContexProvider: React.FC<{ children: React.ReactNode }> = ({
       message: "",
     },
     passwordValidation: {
-      isValid: false,
+      isValid: null,
       length: false,
       lowerCase: false,
       minLength: false,

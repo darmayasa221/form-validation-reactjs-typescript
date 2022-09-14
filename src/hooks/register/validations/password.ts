@@ -7,7 +7,7 @@ import {
 } from "src/commons/regex";
 
 export type PasswordValidationType = {
-  isValid: boolean;
+  isValid: boolean | null;
   whiteSpace: boolean;
   length: boolean;
   number: boolean;

@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import * as React from "react";
 import RegisterContext from "src/hooks/register/context";
 import FormRegisterInput from "./FormRegisterInput/FormRegisterInput";
+import PasswordValidationPopup from "./PasswordValidationPopup/PasswordValidationPopup";
 
 const Register: React.FC = () => {
   const {
@@ -14,6 +15,7 @@ const Register: React.FC = () => {
     onSubmit,
   } = React.useContext(RegisterContext);
   const [visible, setVisible] = React.useState<boolean>(false);
+  const [passwordPopup, setPasswordPopup] = React.useState<boolean | null>(null)
   React.useEffect(() => {
     if (
       isValid.usernameValidation.isValid &&
@@ -52,14 +54,28 @@ const Register: React.FC = () => {
             isValid={isValid.emailValidation.isValid}
             value={data.email}
           />
-          <FormRegisterInput
-            id="password"
-            label="Password"
-            type="password"
-            onChange={onChangePassword}
-            isValid={isValid.passwordValidation.isValid}
-            value={data.password}
-          />
+          <WraperPasswordInput>
+            <FormRegisterInput
+              id="password"
+              label="Password"
+              type="password"
+              onChange={onChangePassword}
+              onFocus={() => {setPasswordPopup(true)}}
+              onBlur={() => {setPasswordPopup(false)}}
+              isValid={isValid.passwordValidation.isValid}
+              value={data.password}
+            />
+            {!isValid.passwordValidation.isValid &&  <PasswordValidationPopup 
+            active={passwordPopup}
+            lowerCase={isValid.passwordValidation.lowerCase}
+            upperCase={isValid.passwordValidation.upperCase}
+            number={isValid.passwordValidation.number}
+            symbol={isValid.passwordValidation.symbol}
+            minLength={isValid.passwordValidation.minLength}
+            whiteSpace={isValid.passwordValidation.whiteSpace}
+            length={isValid.passwordValidation.length}
+            />}
+          </WraperPasswordInput>
           <FormRegisterInput
             id="confirmPassword"
             label="Confirm Password"
@@ -70,11 +86,11 @@ const Register: React.FC = () => {
             isValid={isValid.confirmPasswordValidation.isValid}
             value={data.confirmPassword}
           />
-          <WrapBotton>
+          <WraperBotton>
             <button type={"submit"} disabled={!visible}>
               Submit
             </button>
-          </WrapBotton>
+          </WraperBotton>
         </Form>
       </Card>
     </Wraper>
@@ -100,7 +116,7 @@ const Form = styled.form({
   width: "100%",
   marginTop: "20px",
 });
-const WrapBotton = styled.div({
+const WraperBotton = styled.div({
   display: "flex",
   justifyContent: "center",
   height: "30px",
@@ -121,4 +137,6 @@ const WrapBotton = styled.div({
     },
   },
 });
+const WraperPasswordInput = styled.div({});
+
 export default Register;
