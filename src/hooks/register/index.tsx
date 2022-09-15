@@ -1,6 +1,6 @@
 import * as React from "react";
 import RegisterContext from "./context";
-import registerReducer from "./reducer";
+import registerReducer, { InitialRegisterState } from "./reducer";
 import confirmPasswordValidation, {
   ConfirmPasswordValidationType,
 } from "./validations/confirmPassword";
@@ -104,20 +104,27 @@ const RegisterContexProvider: React.FC<{ children: React.ReactNode }> = ({
       payload: event.target.value,
     });
   };
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(register);
+  const onSubmit = () => {
+    const users: string | null = localStorage.getItem("_users");
+    const usersJson: Array<InitialRegisterState> = JSON.parse(users || "[]");
+    if (users === null) {
+      localStorage.setItem("_users", JSON.stringify([register]));
+      return;
+    }
+    usersJson?.push(register);
+    localStorage.clear();
+    localStorage.setItem("_users", JSON.stringify(usersJson));
   };
   return (
     <RegisterContext.Provider
       value={{
         data: register,
         isValid: validation,
-        onChangeUsername,
-        onChangeEmail,
-        onChangePassword,
-        onChangeConfirmPassword,
-        onSubmit,
+        usernameInput: onChangeUsername,
+        emailInput: onChangeEmail,
+        passwordInput: onChangePassword,
+        confirmPassowrdInput: onChangeConfirmPassword,
+        submitHandler: onSubmit,
       }}
     >
       {children}

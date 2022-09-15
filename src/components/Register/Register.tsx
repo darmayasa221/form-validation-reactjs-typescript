@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import * as React from "react";
 import RegisterContext from "src/hooks/register/context";
+import Confirmation from "./Confirmation/Confirmation";
 import FormRegisterInput from "./FormRegisterInput/FormRegisterInput";
 import PasswordValidationPopup from "./PasswordValidationPopup/PasswordValidationPopup";
 
@@ -8,14 +9,17 @@ const Register: React.FC = () => {
   const {
     data,
     isValid,
-    onChangeConfirmPassword,
-    onChangeEmail,
-    onChangePassword,
-    onChangeUsername,
-    onSubmit,
+    confirmPassowrdInput,
+    emailInput,
+    passwordInput,
+    usernameInput,
+    submitHandler,
   } = React.useContext(RegisterContext);
+  const [modal, setModal] = React.useState<boolean>(false);
   const [visible, setVisible] = React.useState<boolean>(false);
-  const [passwordPopup, setPasswordPopup] = React.useState<boolean | null>(null)
+  const [passwordPopup, setPasswordPopup] = React.useState<boolean | null>(
+    null
+  );
   React.useEffect(() => {
     if (
       isValid.usernameValidation.isValid &&
@@ -29,8 +33,15 @@ const Register: React.FC = () => {
       setVisible(false);
     };
   }, [isValid]);
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setModal(true);
+  };
   return (
     <Wraper>
+      {modal && (
+        <Confirmation setModal={setModal} submitHandler={submitHandler} />
+      )}
       <Card>
         <h1>Register Here</h1>
         <Form onSubmit={onSubmit}>
@@ -38,8 +49,8 @@ const Register: React.FC = () => {
             id="username"
             label="Username"
             type="text"
-            onChange={onChangeUsername}
-            onBlur={onChangeUsername}
+            onChange={usernameInput}
+            onBlur={usernameInput}
             message={isValid.usernameValidation.message}
             isValid={isValid.usernameValidation.isValid}
             value={data.username}
@@ -48,46 +59,50 @@ const Register: React.FC = () => {
             id="email"
             label="Email"
             type="email"
-            onChange={onChangeEmail}
-            onBlur={onChangeEmail}
+            onChange={emailInput}
+            onBlur={emailInput}
             message={isValid.emailValidation.message}
             isValid={isValid.emailValidation.isValid}
             value={data.email}
           />
-          <WraperPasswordInput>
-            <FormRegisterInput
-              id="password"
-              label="Password"
-              type="password"
-              onChange={onChangePassword}
-              onFocus={() => {setPasswordPopup(true)}}
-              onBlur={() => {setPasswordPopup(false)}}
-              isValid={isValid.passwordValidation.isValid}
-              value={data.password}
+          <FormRegisterInput
+            id="password"
+            label="Password"
+            type="password"
+            onChange={passwordInput}
+            onFocus={() => {
+              setPasswordPopup(true);
+            }}
+            onBlur={() => {
+              setPasswordPopup(false);
+            }}
+            isValid={isValid.passwordValidation.isValid}
+            value={data.password}
+          />
+          {!isValid.passwordValidation.isValid && (
+            <PasswordValidationPopup
+              active={passwordPopup}
+              lowerCase={isValid.passwordValidation.lowerCase}
+              upperCase={isValid.passwordValidation.upperCase}
+              number={isValid.passwordValidation.number}
+              symbol={isValid.passwordValidation.symbol}
+              minLength={isValid.passwordValidation.minLength}
+              whiteSpace={isValid.passwordValidation.whiteSpace}
+              length={isValid.passwordValidation.length}
             />
-            {!isValid.passwordValidation.isValid &&  <PasswordValidationPopup 
-            active={passwordPopup}
-            lowerCase={isValid.passwordValidation.lowerCase}
-            upperCase={isValid.passwordValidation.upperCase}
-            number={isValid.passwordValidation.number}
-            symbol={isValid.passwordValidation.symbol}
-            minLength={isValid.passwordValidation.minLength}
-            whiteSpace={isValid.passwordValidation.whiteSpace}
-            length={isValid.passwordValidation.length}
-            />}
-          </WraperPasswordInput>
+          )}
           <FormRegisterInput
             id="confirmPassword"
             label="Confirm Password"
             type="password"
-            onChange={onChangeConfirmPassword}
-            onBlur={onChangeConfirmPassword}
+            onChange={confirmPassowrdInput}
+            onBlur={confirmPassowrdInput}
             message={isValid.confirmPasswordValidation.message}
             isValid={isValid.confirmPasswordValidation.isValid}
             value={data.confirmPassword}
           />
           <WraperBotton>
-            <button type={"submit"} disabled={!visible}>
+            <button type={"submit"} disabled={visible}>
               Submit
             </button>
           </WraperBotton>
@@ -130,6 +145,7 @@ const WraperBotton = styled.div({
     ":disabled": {
       color: "white",
       backgroundColor: "gray",
+      cursor: "not-allowed",
     },
     ":active": {
       color: "white",
@@ -137,6 +153,5 @@ const WraperBotton = styled.div({
     },
   },
 });
-const WraperPasswordInput = styled.div({});
 
 export default Register;

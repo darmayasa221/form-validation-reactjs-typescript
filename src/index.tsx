@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import RegisterContexProvider from './hooks/register';
+import { RouterProvider } from 'react-router-dom';
+import routers from './routers/rooters';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <RegisterContexProvider>
-    <App />
+    <RouterProvider router={routers}/>
   </RegisterContexProvider>
 );

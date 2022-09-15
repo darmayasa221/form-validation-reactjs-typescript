@@ -5,11 +5,11 @@ import { InitialRegisterState } from "./reducer";
 export type RegisterContextType = {
   data: InitialRegisterState;
   isValid: RegisterValidationType;
-  onChangeUsername: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onChangeEmail: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onChangePassword: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onChangeConfirmPassword: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  usernameInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  emailInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  passwordInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  confirmPassowrdInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  submitHandler: () => void;
 };
 
 const RegisterContext = React.createContext<RegisterContextType>(
