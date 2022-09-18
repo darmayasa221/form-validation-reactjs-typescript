@@ -102,7 +102,7 @@ const Register: React.FC = () => {
             value={data.confirmPassword}
           />
           <WraperBotton>
-            <button type={"submit"} disabled={visible}>
+            <button type={"submit"} disabled={!visible}>
               Submit
             </button>
           </WraperBotton>

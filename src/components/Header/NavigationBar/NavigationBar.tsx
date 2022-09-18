@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import * as React from "react";
+import { Link } from "react-router-dom";
 import NavigationList from "./NavigationList";
 
 const NavigationBar: React.FC = () => {
@@ -9,12 +10,12 @@ const NavigationBar: React.FC = () => {
         <NavigationList />
       </ul>
       <Wrap>
-        <a className="register" href="/">
+        <Link className="register" to="/register">
           Register
-        </a>
-        <a className="login" href="/">
+        </Link>
+        <Link className="login" to="/login">
           <p>Login</p>
-        </a>
+        </Link>
       </Wrap>
     </Nav>
   );
