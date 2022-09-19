@@ -2,28 +2,35 @@ import styled from "@emotion/styled";
 import * as React from "react";
 import LoginContex from "src/hooks/login/context";
 import FormLoginInput, { ActiveRef } from "./FormLoginInput/FormLoginInput";
+import Notification from "./Notification/Notification";
 
 const Login: React.FC = () => {
-  const { data, isValid, usernameInput, passwordInput, submitHandler } =
-    React.useContext(LoginContex);
-  const [valid, setIsvalid] = React.useState<boolean>(false);
+  const {
+    data,
+    isValid,
+    notification,
+    usernameInput,
+    passwordInput,
+    submitHandler,
+  } = React.useContext(LoginContex);
+  const [valid, setValid] = React.useState<boolean>(false);
   React.useEffect(() => {
     if (
       isValid.usernameValidation.isValid &&
       isValid.passwordValidation.isValid
     ) {
-      setIsvalid(true);
+      setValid(true);
     }
     return () => {
-      setIsvalid(false);
+      setValid(false);
     };
   }, [isValid]);
   const usernameInputRef = React.useRef<ActiveRef | null>(null);
   const passwordInputRef = React.useRef<ActiveRef | null>(null);
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (valid) {
-      submitHandler();
+      await submitHandler();
     } else if (!isValid.usernameValidation.isValid) {
       usernameInputRef.current?.activete();
     } else if (!isValid.passwordValidation.isValid) {
@@ -32,6 +39,9 @@ const Login: React.FC = () => {
   };
   return (
     <Wraper>
+      {notification.notification && (
+        <Notification message={notification.message} />
+      )}
       <Card>
         <h1>Login</h1>
         <Form onSubmit={onSubmit}>
@@ -96,6 +106,9 @@ const WraperBotton = styled.div({
     border: "none",
     borderRadius: "5px",
     backgroundColor: "#0087ff",
+    ":hover": {
+      color: "white",
+    },
     ":active": {
       color: "white",
       backgroundColor: "#12d901",
