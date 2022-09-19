@@ -142,7 +142,7 @@ const WraperBotton = styled.div({
     border: "none",
     borderRadius: "5px",
     backgroundColor: "#0087ff",
-    ":disabled": {
+    ":disabled,:focus:disabled,:hover:disabled,:active:disabled": {
       color: "white",
       backgroundColor: "gray",
       cursor: "not-allowed",

@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import * as React from "react";
-
+export type ActiveRef = {
+  activete: () => void;
+};
 type PropsFormLoginInput = Partial<HTMLInputElement> & {
   label: string;
   isValid?: boolean | null;
@@ -18,35 +20,37 @@ type PropsFormLoginInput = Partial<HTMLInputElement> & {
   ) => void;
 };
 
-const FormLoginInput: React.FC<PropsFormLoginInput> = ({
-  label,
-  id,
-  type,
-  message,
-  isValid,
-  onChange,
-  onBlur,
-  onFocus,
-}) => {
-  return (
-    <WrapInput>
-      <label htmlFor={id}>{label}</label>
-      <Input
-        type={type}
-        id={id}
-        onChange={onChange}
-        isValid={isValid}
-        onBlur={onBlur}
-        onFocus={onFocus}
-      />
-      {!isValid && (
-        <ErrorMessage isValid={isValid}>
-          <i>{message}</i>
-        </ErrorMessage>
-      )}
-    </WrapInput>
-  );
-};
+const FormLoginInput = React.forwardRef<ActiveRef, PropsFormLoginInput>(
+  ({ label, id, type, message, isValid, onChange, onBlur }, ref) => {
+    const inputRef = React.useRef<HTMLInputElement>(null);
+    const activate = () => {
+      inputRef.current?.focus();
+    };
+    React.useImperativeHandle(ref, () => {
+      return {
+        activete: activate,
+      };
+    });
+    return (
+      <WrapInput>
+        <label htmlFor={id}>{label}</label>
+        <Input
+          ref={inputRef}
+          type={type}
+          id={id}
+          onChange={onChange}
+          isValid={isValid}
+          onBlur={onBlur}
+        />
+        {!isValid && (
+          <ErrorMessage isValid={isValid}>
+            <i>{message}</i>
+          </ErrorMessage>
+        )}
+      </WrapInput>
+    );
+  }
+);
 
 const WrapInput = styled.span({
   display: "flex",
@@ -74,7 +78,6 @@ const Input = styled.input<Pick<PropsFormLoginInput, "isValid">>(
     },
   })
 );
-
 const ErrorMessage = styled.p<Pick<PropsFormLoginInput, "isValid">>(
   ({ isValid }) => ({
     color: "red",
