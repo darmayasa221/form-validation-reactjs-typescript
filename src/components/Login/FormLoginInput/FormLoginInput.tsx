@@ -13,11 +13,6 @@ type PropsFormLoginInput = Partial<HTMLInputElement> & {
       | React.ChangeEvent<HTMLInputElement>
       | React.FocusEvent<HTMLInputElement, Element>
   ) => void;
-  onFocus?: (
-    event:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.FocusEvent<HTMLInputElement, Element>
-  ) => void;
 };
 
 const FormLoginInput = React.forwardRef<ActiveRef, PropsFormLoginInput>(
